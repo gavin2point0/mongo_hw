@@ -26,7 +26,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/mongo_hw");
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongo_hw";
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
+
+
 
 var exphbs = require("express-handlebars");
 
@@ -130,6 +138,7 @@ app.post("/articles/:id", function (req, res) {
       // If an error occurred, send it to the client
       res.json(err);
     });
+    //remove posts
 });
 
 // Start the server
